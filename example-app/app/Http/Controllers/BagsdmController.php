@@ -99,10 +99,11 @@ class BagsdmController extends Controller
         });
     }
 
-    $data_event = $query->paginate(20);
+    $data_event = $query->orderBy('created_at', 'desc')->paginate(20);
 
     return view('bagsdm.formDataPeserta', compact('data_event'));
 }
+
 public function formDataKaryawan(Request $request)
 {
     $search = $request->input('search');
