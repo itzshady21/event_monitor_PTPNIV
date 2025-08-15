@@ -1,9 +1,21 @@
 @extends('dashboard.header')
 
 @section('content')
-<div class="card mt-4">
+<style>
+    /* Styling tabel agar rapi */
+    .table th, .table td {
+        vertical-align: middle !important;
+        padding: 0.75rem 1rem !important;
+        white-space: nowrap;
+    }
+    .table-responsive {
+        overflow-x: auto;
+    }
+</style>
+
+<div class="card mt-4 shadow-sm">
     <div class="card-header bg-success text-white">
-        <h4>Daftar Pelatihan Tersedia</h4>
+        <h4 class="mb-0">Daftar Pelatihan Tersedia</h4>
     </div>
     <div class="card-body">
         {{-- SweetAlert for Success --}}
@@ -20,10 +32,11 @@
                 });
             </script>
         @endif
+
         <div class="table-responsive">
-            <table class="table table-bordered table-hover">
-                <thead class="table-light">
-                    <tr>
+            <table class="table table-striped table-bordered align-middle">
+                <thead class="table-success">
+                    <tr class="text-center">
                         <th>No</th>
                         <th>Judul Pelatihan</th>
                         <th>Tanggal Awal</th>
@@ -37,31 +50,40 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($pelatihan as $index => $item)
-                    <tr>
-                        <td>{{ $index + 1 }}</td>
-                        <td>{{ $item->judul_pelatihan }}</td>
-                        <td>{{ $item->tgl_awal }}</td>
-                        <td>{{ $item->tgl_akhir }}</td>
-                        <td>{{ $item->metode_pelatihan }}</td>
-                        <td>{{ $item->lokasi_pelatihan }}</td>
-                        <td>{{ $item->jenis_pelatihan }}</td>
-                        <td>{{ $item->penyelenggara }}</td>
-                        <td>Rp{{ number_format($item->biaya, 0, ',', '.') }}</td>
-                        <td>
-                            <form action="{{ route('register.pelatihan', $item->id) }}" method="POST">
-                                @csrf
-                                <button type="submit" class="btn btn-sm btn-primary">Register</button>
-                            </form>
-                        </td>
-                    </tr>
-                    @endforeach
+                    @forelse($pelatihan as $index => $item)
+                        <tr>
+                            <td class="text-center">{{ $pelatihan->firstItem() + $index }}</td>
+                            <td>{{ $item->judul_pelatihan }}</td>
+                            <td class="text-center">{{ \Carbon\Carbon::parse($item->tgl_awal)->format('d-m-Y') }}</td>
+                            <td class="text-center">{{ \Carbon\Carbon::parse($item->tgl_akhir)->format('d-m-Y') }}</td>
+                            <td class="text-center">{{ $item->metode_pelatihan }}</td>
+                            <td>{{ $item->lokasi_pelatihan }}</td>
+                            <td class="text-center">{{ $item->jenis_pelatihan }}</td>
+                            <td>{{ $item->penyelenggara }}</td>
+                            <td class="text-end">Rp{{ number_format($item->biaya, 0, ',', '.') }}</td>
+                           <td class="text-center">
+                                <form action="{{ route('register.pelatihan', $item->id) }}" method="POST" style="display:inline-block;">
+                                    @csrf
+                                    <button type="submit" class="btn btn-sm btn-primary" title="Daftar Pelatihan">
+                                        <i class="fas fa-book"></i> Register
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="10" class="text-center text-muted py-4">
+                                Tidak ada pelatihan tersedia saat ini.
+                            </td>
+                        </tr>
+                    @endforelse
                 </tbody>
             </table>
-                    <!-- Paginate Navigation -->
-                        <div class="d-flex justify-content-center mt-3">
-                            {{ $pelatihan->links() }}
-                        </div>
+
+            <!-- Paginate Navigation -->
+            <div class="d-flex justify-content-center mt-3">
+                {{ $pelatihan->links() }}
+            </div>
         </div>
     </div>
 </div>

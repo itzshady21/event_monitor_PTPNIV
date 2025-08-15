@@ -14,7 +14,7 @@
 
         <div class="table-responsive">
             <table class="table table-bordered table-striped text-nowrap" style="font-size: 16px;">
-                <thead class="thead-dark text-center">
+                <thead class="bg-primary text-black">
                     <tr>
                         <th>No</th>
                         <th>NIK</th>
@@ -55,21 +55,31 @@
                                     <i class="fa fa-eye"></i> Lihat
                                 </a>
                             @else
-                                <span class="text-muted">Belum Ada</span>
+                                <span class="badge bg-secondary">Belum Ada Sertifikat</span>
                             @endif
                         </td>
                         <td style="min-width: 220px;">
-                            <form 
-                                action="{{ $event->sertifikat ? route('edit.sertifikat', $event->id) : route('upload.sertifikat', $event->id) }}" 
-                                method="POST" enctype="multipart/form-data" class="d-flex align-items-center gap-2">
-                                @csrf
-                                @method('POST')
-                                <input type="file" name="sertifikat" accept="application/pdf" class="form-control form-control-sm" required>
-                                <button type="submit" class="btn btn-sm btn-primary">
-                                    {{ $event->sertifikat ? 'Edit' : 'Upload' }}
-                                </button>
-                            </form>
-                        </td>
+    <form 
+        action="{{ $event->sertifikat ? route('edit.sertifikat', $event->id) : route('upload.sertifikat', $event->id) }}" 
+        method="POST" enctype="multipart/form-data" class="d-flex align-items-center gap-2">
+        @csrf
+        @method('POST')
+        <input type="file" name="sertifikat" accept="application/pdf" class="form-control form-control-sm" required>
+
+        @if($event->sertifikat)
+            {{-- Tombol Edit --}}
+            <button type="submit" class="btn btn-sm btn-warning text-black" title="Edit Sertifikat">
+                <i class="fas fa-edit"></i> Edit
+            </button>
+        @else
+            {{-- Tombol Upload --}}
+            <button type="submit" class="btn btn-sm btn-primary" title="Upload Sertifikat">
+                <i class="fas fa-upload"></i> Upload
+            </button>
+        @endif
+    </form>
+</td>
+
                     </tr>
                 @endforeach
                 </tbody>

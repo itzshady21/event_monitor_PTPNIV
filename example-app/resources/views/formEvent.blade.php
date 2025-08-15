@@ -91,7 +91,10 @@
         <input type="text" id="biaya_visible" class="form-control" readonly style="background:#e9ecef;">
       </div>
 
-      <button type="submit" class="btn btn-primary mt-3">Simpan</button>
+      <button type="submit" class="btn btn-primary mt-3" title="Simpan Data">
+    <i class="fas fa-save"></i> Simpan
+</button>
+
     </form>
   </div>
 </div>

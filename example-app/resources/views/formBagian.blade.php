@@ -44,87 +44,102 @@
                 <label for="Tgl_bagian">Tanggal Dibentuk</label>
                 <input type="date" name="Tgl_bagian" class="form-control" required>
             </div>
-            <button type="submit" class="btn btn-primary mt-3">Simpan</button>
+            <button type="submit" class="btn btn-primary mt-3" title="Simpan Data">
+                <i class="fas fa-save"></i> Simpan
+            </button>
         </form>
     </div>
 </div>
 
 <!-- TABEL LIST BAGIAN -->
-<div class="card mt-4">
-    <div class="card-header bg-success text-white">
-        <h4>Daftar Bagian</h4>
+<div class="card mt-4 shadow-sm border-0">
+    <div class="card-header bg-success text-white rounded-top">
+        <h4 class="mb-0">Daftar Bagian</h4>
     </div>
     <div class="card-body">
-        <table class="table table-bordered table-hover">
-            <thead>
-                <tr>
-                    <th>No</th>
-                    <th>Nama Bagian</th>
-                    <th>Kepala</th>
-                    <th>Wakil Kepala</th>
-                    <th>Tanggal Dibentuk</th>
-                    <th>Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($bagians as $index => $bagian)
-                <tr>
-                    <td>{{ $index + 1 }}</td>
-                    <td>{{ $bagian->nama_bagian }}</td>
-                    <td>{{ $bagian->kepala_bagian }}</td>
-                    <td>{{ $bagian->wakep_bagian }}</td>
-                    <td>{{ \Carbon\Carbon::parse ($bagian->Tgl_bagian)->format('d/m/Y') }}</td>
-                    <td>
-                        <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editModal{{ $bagian->id }}">Edit</button>
-                        <form action="{{ route('bagian.destroy', $bagian->id) }}" method="POST" style="display:inline;" class="delete-form">
-                            @csrf
-                            @method('DELETE')
-                            <button type="button" class="btn btn-danger btn-sm btn-delete">Hapus</button>
-                        </form>
-                    </td>
-                </tr>
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover align-middle">
+                <thead style="background-color: #007bff; color: white;">
+                    <tr class="text-center text-black">
+                        <th style="width: 50px;">No</th>
+                        <th>Nama Bagian</th>
+                        <th>Kepala</th>
+                        <th>Wakil Kepala</th>
+                        <th>Tanggal Dibentuk</th>
+                        <th style="width: 150px;">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($bagians as $index => $bagian)
+                        <tr>
+                            <td class="text-center">{{ $index + 1 }}</td>
+                            <td>{{ $bagian->nama_bagian }}</td>
+                            <td>{{ $bagian->kepala_bagian }}</td>
+                            <td>{{ $bagian->wakep_bagian }}</td>
+                            <td class="text-center">{{ \Carbon\Carbon::parse($bagian->Tgl_bagian)->format('d/m/Y') }}</td>
+                            <td class="text-center">
+                                <button class="btn btn-warning btn-sm mb-1" data-bs-toggle="modal" data-bs-target="#editModal{{ $bagian->id }}">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <form action="{{ route('bagian.destroy', $bagian->id) }}" method="POST" class="delete-form d-inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="button" class="btn btn-danger btn-sm btn-delete">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
 
-                <!-- MODAL EDIT -->
-                <div class="modal fade" id="editModal{{ $bagian->id }}" tabindex="-1" aria-labelledby="editModalLabel{{ $bagian->id }}" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <form action="{{ route('bagian.update', $bagian->id) }}" method="POST">
-                                @csrf
-                                @method('PUT')
-                                <div class="modal-header bg-warning">
-                                    <h5 class="modal-title" id="editModalLabel{{ $bagian->id }}">Edit Bagian</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <!-- MODAL EDIT -->
+                        <div class="modal fade" id="editModal{{ $bagian->id }}" tabindex="-1" aria-labelledby="editModalLabel{{ $bagian->id }}" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <form action="{{ route('bagian.update', $bagian->id) }}" method="POST">
+                                        @csrf
+                                        @method('PUT')
+                                        <div class="modal-header bg-warning">
+                                            <h5 class="modal-title" id="editModalLabel{{ $bagian->id }}">Edit Bagian</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="form-group mb-3">
+                                                <label>Nama Bagian</label>
+                                                <input type="text" name="nama_bagian" class="form-control" value="{{ $bagian->nama_bagian }}" required>
+                                            </div>
+                                            <div class="form-group mb-3">
+                                                <label>Kepala Bagian</label>
+                                                <input type="text" name="kepala_bagian" class="form-control kepala-input" value="{{ $bagian->kepala_bagian }}" list="listKaryawan" required>
+                                            </div>
+                                            <div class="form-group mb-3">
+                                                <label>Wakil Kepala Bagian</label>
+                                                <input type="text" name="wakep_bagian" class="form-control wakil-input" value="{{ $bagian->wakep_bagian }}" list="listKaryawan" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Tanggal Dibentuk</label>
+                                                <input type="date" name="Tgl_bagian" class="form-control" value="{{ $bagian->Tgl_bagian }}" required>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                        </div>
+                                    </form>
                                 </div>
-                                <div class="modal-body">
-                                    <div class="form-group">
-                                        <label>Nama Bagian</label>
-                                        <input type="text" name="nama_bagian" class="form-control" value="{{ $bagian->nama_bagian }}" required>
-                                    </div>
-                                   <div class="form-group">
-                                        <label>Kepala Bagian</label>
-                                        <input type="text" name="kepala_bagian" class="form-control kepala-input" value="{{ $bagian->kepala_bagian }}" list="listKaryawan" required>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label>Wakil Kepala Bagian</label>
-                                        <input type="text" name="wakep_bagian" class="form-control wakil-input" value="{{ $bagian->wakep_bagian }}" list="listKaryawan" required>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label>Tanggal Dibentuk</label>
-                                        <input type="date" name="Tgl_bagian" class="form-control" value="{{ $bagian->Tgl_bagian }}" required>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                                </div>
-                            </form>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <!-- END MODAL -->
-                @endforeach
+                        <!-- END MODAL -->
+                    @empty
+                        <tr>
+                            <td colspan="6" class="text-center text-muted">Tidak ada data bagian</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
 
                 <script>
                     document.addEventListener('DOMContentLoaded', function () {

@@ -20,6 +20,12 @@ Route::get('/riwayat-pelatihan', [JadwalPelatihanController::class, 'riwayatPela
     ->middleware('karyawan')
     ->name('riwayat.pelatihan');
 
+
+// Route untuk jadwal pelatihan per karyawan (sesuai tombol di Blade)
+Route::get('/jadwal-pelatihan/{id}', [JadwalPelatihanController::class, 'index'])
+    ->middleware('karyawan')
+    ->name('jadwal.pelatihan');
+
 // Default route
 Route::get('/', function () {
     return view('welcome');

@@ -72,31 +72,37 @@
                 <input type="number" class="form-control" id="biaya" name="biaya" min="0" required>
             </div>
 
-            <button type="submit" class="btn btn-primary mt-3">Simpan</button>
+            <button type="submit" class="btn btn-primary mt-3" title="Simpan Data">
+                <i class="fas fa-save"></i> Simpan
+            </button>
         </form>
     </div>
 </div>
 
 {{-- ================= CARD DATA TABEL ================= --}}
-<div class="card mt-4">
-    <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
-        <h4>Data Pelatihan</h4>
+<div class="card mt-4 shadow-sm border-0">
+    <div class="card-header bg-success text-white d-flex justify-content-between align-items-center rounded-top">
+        <h4 class="mb-0">Data Pelatihan</h4>
     </div>
 
     <div class="card-body">
+        {{-- Form Pencarian --}}
         <div class="d-flex justify-content-end mb-3">
-             <form action="{{ route('formPelatihan') }}" method="GET" class="d-flex align-items-center">
-            <input type="text" name="search" value="{{ request('search') }}" class="form-control mr-2" placeholder="Cari data...">
-            <button type="submit" class="btn btn-light" style="background-color: #007bff; color: white;">
-                <i class="fas fa-search"></i>
-            </button>
-        </form>
+            <form action="{{ route('formPelatihan') }}" method="GET" class="d-flex align-items-center">
+                <input type="text" name="search" value="{{ request('search') }}" 
+                       class="form-control mr-2" placeholder="Cari data...">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-search"></i>
+                </button>
+            </form>
         </div>
-            <div class="table-responsive" id="tableData">
-            <table class="table table-bordered table-hover mt-3">
-                <thead>
-                    <tr>
-                        <th>No</th>
+
+        {{-- Tabel Data --}}
+        <div class="table-responsive" id="tableData">
+            <table class="table table-bordered table-hover align-middle">
+                <thead style="background-color: #007bff; color: white;">
+                    <tr class="text-center text-black">
+                        <th style="width: 50px;">No</th>
                         <th>Judul</th>
                         <th>Periode Pelatihan</th>
                         <th>Metode</th>
@@ -104,42 +110,52 @@
                         <th>Jenis</th>
                         <th>Penyelenggara</th>
                         <th>Biaya</th>
-                        <th>Aksi</th>
+                        <th style="width: 120px;">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse($pelatihan as $item)
-                    <tr>
-                        <td>{{ $loop->iteration + ($pelatihan->currentPage() - 1) * $pelatihan->perPage() }}</td>
-                        <td>{{ $item->judul_pelatihan }}</td>
-                        <td>{{ \Carbon\Carbon::parse($item->tgl_awal)->format('d/m/Y') }} - {{ \Carbon\Carbon::parse($item->tgl_akhir)->format('d/m/Y') }}</td>
-                        <td>{{ $item->metode_pelatihan }}</td>
-                        <td>{{ $item->lokasi_pelatihan }}</td>
-                        <td>{{ $item->jenis_pelatihan }}</td>
-                        <td>{{ $item->penyelenggara }}</td>
-                        <td>Rp{{ number_format($item->biaya, 0, ',', '.') }}</td>
-                        <td>
-                            <button class="btn btn-sm btn-warning" onclick="editData({{ json_encode($item) }})">Edit</button>
-                            <form method="POST" action="{{ route('formPelatihan.destroy', $item->id) }}" class="form-delete d-inline">
-                                @csrf
-                                @method('DELETE')
-                                <button type="button" class="btn btn-sm btn-danger btn-delete">Hapus</button>
-                            </form>
-                        </td>
-                    </tr>
+                        <tr>
+                            <td class="text-center">{{ $loop->iteration + ($pelatihan->currentPage() - 1) * $pelatihan->perPage() }}</td>
+                            <td>{{ $item->judul_pelatihan }}</td>
+                            <td class="text-center">
+                                {{ \Carbon\Carbon::parse($item->tgl_awal)->format('d/m/Y') }} -
+                                {{ \Carbon\Carbon::parse($item->tgl_akhir)->format('d/m/Y') }}
+                            </td>
+                            <td class="text-center">{{ $item->metode_pelatihan }}</td>
+                            <td>{{ $item->lokasi_pelatihan }}</td>
+                            <td class="text-center">{{ $item->jenis_pelatihan }}</td>
+                            <td>{{ $item->penyelenggara }}</td>
+                            <td class="text-right">Rp{{ number_format($item->biaya, 0, ',', '.') }}</td>
+                            <td class="text-center">
+                                <button class="btn btn-sm btn-warning mb-1" onclick="editData({{ json_encode($item) }})">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <form method="POST" action="{{ route('formPelatihan.destroy', $item->id) }}" class="form-delete d-inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="button" class="btn btn-sm btn-danger btn-delete">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
                     @empty
-                    <tr>
-                        <td colspan="9" class="text-center">Data tidak tersedia</td>
-                    </tr>
+                        <tr>
+                            <td colspan="9" class="text-center text-muted">Data tidak tersedia</td>
+                        </tr>
                     @endforelse
                 </tbody>
             </table>
 
-    {{-- PAGINATION --}}
-    <div class="d-flex justify-content-center">
-        {{ $pelatihan->links() }}
+            {{-- PAGINATION --}}
+            <div class="d-flex justify-content-center mt-3">
+                {{ $pelatihan->links() }}
+            </div>
+        </div>
     </div>
 </div>
+
 
 
 {{-- ================= MODAL EDIT ================= --}}

@@ -20,7 +20,7 @@
 
     <div class="table-responsive">
     <table class="table table-striped table-bordered align-middle text-nowrap" id="karyawanTable" style="font-size: 16px;">
-        <thead class="table-light text-center">
+        <thead class="bg-primary text-black">
             <tr>
                 <th style="white-space: nowrap;">No</th>
                 <th style="white-space: nowrap;">Foto</th>
@@ -50,7 +50,7 @@
                     @if ($karyawan->foto)
                         <img src="{{ asset('storage/foto/' . $karyawan->foto) }}" alt="Foto" width="90" height="100" style="object-fit: cover; border-radius: 5px;">
                     @else
-                        <span class="text-muted">-</span>
+                        <span class="badge bg-secondary">Belum Ada Foto</span>
                     @endif
                 </td>
                 <td>{{ $karyawan->nik }}</td>
@@ -69,12 +69,21 @@
                 <td>{{ $karyawan->email }}</td>
                 <td>{{ $karyawan->password }}</td>
                 <td class="text-center">
-                    <a href="#" class="btn btn-warning btn-sm mb-1" data-bs-toggle="modal" data-bs-target="#editModal" data-id="{{ $karyawan->id }}">Edit</a>
-                    <button class="btn btn-danger btn-sm" onclick="confirmDelete({{ $karyawan->id }})">Hapus</button>
-                    <form id="delete-form-{{ $karyawan->id }}" action="{{ route('destroyKaryawan', $karyawan->id) }}" method="POST" style="display: none;">
-                        @csrf
-                        @method('DELETE')
-                    </form>
+                   <!-- Tombol Edit -->
+                <button type="button" class="btn btn-warning btn-sm me-1" 
+                    data-bs-toggle="modal" 
+                    data-bs-target="#editModal" 
+                    data-id="{{ $karyawan->id }}"
+                    title="Edit Data">
+                    <i class="fas fa-edit"></i> Edit
+                </button>
+
+                <!-- Tombol Hapus -->
+                <button type="button" class="btn btn-danger btn-sm" 
+                    onclick="confirmDelete({{ $karyawan->id }})"
+                    title="Hapus Data">
+                    <i class="fas fa-trash-alt"></i> Hapus
+                </button>
                 </td>
             </tr>
         @endforeach

@@ -102,7 +102,9 @@
                 <div class="text">
                     <h5>Pelatihan yang Diikuti</h5>
                     <p class="mb-2">Lihat riwayat pelatihan Anda.</p>
-                    <a href="{{ url('jadwal-pelatihan/' . session('karyawan_id')) }}" class="btn btn-white btn-sm">Lihat Pelatihan</a>
+                    <a href="{{ route('riwayat.pelatihan') }}" class="btn btn-white btn-sm">
+                        Lihat Pelatihan
+                    </a>
                 </div>
             </div>
         </div>

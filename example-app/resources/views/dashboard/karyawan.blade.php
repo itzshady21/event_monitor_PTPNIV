@@ -1,37 +1,54 @@
 @extends('dashboard.header')
 
 @section('content')
-    <div class="container mt-4">
-        
+<style>
+    .profile-photo {
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 10px;
+        border: 2px solid #ddd;
+    }
+    .table th {
+        width: 250px;
+        background-color: #f8f9fa;
+        font-weight: 600;
+        vertical-align: middle;
+    }
+    .table td {
+        vertical-align: middle;
+    }
+</style>
 
-        <div class="card mt-3">
-            <div class="card-header bg-primary text-white">
-                <h4>Data Profil</h4>
-            </div>
-            <div class="card-body">
+<div class="container mt-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">Data Profil</h4>
+        </div>
+        <div class="card-body">
 
-                {{-- FOTO PROFIL --}}
-                <div class="d-flex align-items-center mb-4">
-                    <div>
-                        @if ($karyawan->foto)
-                            <img src="{{ asset('storage/foto/' . $karyawan->foto) }}" 
-                                 alt="Foto Profil" 
-                                 width="150" height="150"
-                                 style="object-fit: cover; border-radius: 10px; border: 2px solid #ddd;">
-                        @else
-                            <div style="width: 150px; height: 150px; background-color: #f0f0f0; display: flex; align-items: center; justify-content: center; border-radius: 10px; border: 2px solid #ddd;">
-                                <span class="text-muted">Tidak ada foto</span>
-                            </div>
-                        @endif
+            {{-- FOTO PROFIL --}}
+            <div class="d-flex align-items-center mb-4">
+                @if ($karyawan->foto)
+                    <img src="{{ asset('storage/foto/' . $karyawan->foto) }}" 
+                         alt="Foto Profil" 
+                         class="profile-photo">
+                @else
+                    <div class="d-flex align-items-center justify-content-center profile-photo" 
+                         style="background-color: #f0f0f0;">
+                        <span class="text-muted">Tidak ada foto</span>
                     </div>
-                    <div class="ms-4">
-                        <h5 class="mb-0">{{ $karyawan->nama }}</h5>
-                        <p class="text-muted mb-0">{{ $karyawan->jabatan }} - {{ $karyawan->bagian }}</p>
-                        <p class="text-muted">{{ $karyawan->unit_usaha }}</p>
-                    </div>
+                @endif
+
+                <div class="ms-4">
+                    <h5 class="mb-1">{{ $karyawan->nama }}</h5>
+                    <p class="mb-0 text-muted">{{ $karyawan->jabatan }} - {{ $karyawan->bagian }}</p>
+                    <p class="mb-0 text-muted">{{ $karyawan->unit_usaha }}</p>
                 </div>
+            </div>
 
-                {{-- DATA TABEL --}}
+            {{-- DATA TABEL --}}
+            <div class="table-responsive">
                 <table class="table table-bordered">
                     <tr>
                         <th>NIK</th>
@@ -49,7 +66,7 @@
                         <th>Tempat, Tanggal Lahir</th>
                         <td>{{ $karyawan->tempat }}, {{ \Carbon\Carbon::parse($karyawan->tanggal_lahir)->format('d/m/Y') }}</td>
                     </tr>
-                     <tr>
+                    <tr>
                         <th>Agama</th>
                         <td>{{ $karyawan->agama }}</td>
                     </tr>
@@ -97,4 +114,5 @@
             </div>
         </div>
     </div>
+</div>
 @endsection
