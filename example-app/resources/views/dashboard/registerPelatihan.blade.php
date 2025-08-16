@@ -70,7 +70,7 @@
                                 </form>
                             </td>
                         </tr>
-                    @empty
+                        @empty
                         <tr>
                             <td colspan="10" class="text-center text-muted py-4">
                                 Tidak ada pelatihan tersedia saat ini.
