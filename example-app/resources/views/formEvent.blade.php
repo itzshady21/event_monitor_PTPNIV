@@ -157,9 +157,14 @@
     document.getElementById('lokasi_pelatihan').style.display = (m === 'Offline') ? 'block' : 'none';
   }
 
-  function formatRupiah(x){
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-  }
+  function formatRupiah(x) {
+    let number = parseInt(x); // ambil bagian integer
+    if (isNaN(number)) return "Rp. 0";
+
+    return 'Rp. ' + number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+}
+
+
 
   document.getElementById('judul_pelatihan').addEventListener('change', function(){
     const id = this.selectedOptions[0].getAttribute('data-id');

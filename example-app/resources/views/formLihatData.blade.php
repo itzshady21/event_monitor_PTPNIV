@@ -72,7 +72,7 @@
                             <td>{{ $event->lokasi_pelatihan }}</td>
                             <td>{{ $event->jenis_pelatihan }}</td>
                             <td>{{ $event->penyelenggara }}</td>
-                            <td>{{ $event->biaya }}</td>
+                            <td>Rp. {{ number_format($event->biaya, 0, ',', '.') }}</td>
                             <td class="text-center">
                                 <div class="btn-group" role="group">
                                     {{-- Tombol Edit --}}
