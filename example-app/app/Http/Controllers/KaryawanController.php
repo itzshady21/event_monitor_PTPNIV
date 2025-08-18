@@ -11,8 +11,8 @@ class KaryawanController extends Controller
 {
     public function create()
     {
-        $bagians = Bagian::all(); // Ambil data dari tbl_bagian
-        return view('formKaryawan', compact('bagians')); // Kirim ke view
+        $bagians = Bagian::orderBy('nama_bagian', 'asc')->get(); 
+        return view('formKaryawan', compact('bagians')); 
     }
 
     public function store(Request $request)
@@ -78,9 +78,9 @@ class KaryawanController extends Controller
                          ->orWhere('bod', 'LIKE', "%{$search}%");
         })
         ->orderBy('nik', 'asc')
-        ->paginate(10); 
+        ->paginate(20); 
 
-        $bagians = Bagian::all();
+        $bagians = Bagian::orderBy('nama_bagian', 'asc')->get(); 
 
         return view('formListKaryawan', compact('karyawans', 'bagians'));
     }

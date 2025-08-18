@@ -33,13 +33,16 @@
                     <img src="{{ asset('storage/foto/' . $karyawan->foto) }}" 
                          alt="Foto Profil" 
                          class="profile-photo">
-                @else
-                    <div class="d-flex align-items-center justify-content-center profile-photo" 
-                         style="background-color: #f0f0f0;">
-                        <span class="text-muted">Tidak ada foto</span>
-                    </div>
-                @endif
-
+                    @else
+                        <div class="d-flex align-items-center justify-content-center profile-photo" 
+                            style="background-color: #f0f0f0; 
+                                    width: 100px; 
+                                    height: 100px; 
+                                    font-size: 4rem; 
+                                    color: #999;">
+                            <i class="fas fa-user"></i> <!-- Simbol user -->
+                        </div>
+                    @endif
                 <div class="ms-4">
                     <h5 class="mb-1">{{ $karyawan->nama }}</h5>
                     <p class="mb-0 text-muted">{{ $karyawan->jabatan }} - {{ $karyawan->bagian }}</p>

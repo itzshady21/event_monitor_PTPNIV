@@ -113,7 +113,7 @@ public function formDataKaryawan(Request $request)
               ->orWhere('nama', 'like', "%{$search}%");
     })
     ->orderByRaw('CAST(nik AS UNSIGNED) ASC')
-    ->paginate(10);
+    ->paginate(20);
 
     return view('bagsdm.formDataKaryawan', compact('karyawans'));
 }

@@ -12,7 +12,7 @@ class BagianController extends Controller
     // Tampilkan form dan daftar bagian
    public function index()
     {
-        $bagians = Bagian::orderBy('created_at', 'desc')->get();
+        $bagians = Bagian::orderBy('nama_bagian', 'asc')->get();
         $karyawans = Karyawan::orderBy('nama')->get(); // ambil data karyawan
 
         return view('formBagian', compact('bagians', 'karyawans'));
